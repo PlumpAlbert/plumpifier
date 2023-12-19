@@ -1,10 +1,11 @@
 package lib
 
 import (
+	"bytes"
 	"encoding/json"
-	"io"
-)
+	"text/template"
 
+)
 
 func DecodeBody[V any](buffer []byte) (*V, error) {
 	var data V
@@ -15,4 +16,16 @@ func DecodeBody[V any](buffer []byte) (*V, error) {
 	}
 
 	return &data, nil
+}
+
+func PrepareTemplate(tpl string, data any) (string, error) {
+	msg, err := template.New("msg").Parse(tpl)
+	if err != nil {
+		return "", err
+	}
+
+	var tmp bytes.Buffer
+	msg.Execute(&tmp, data)
+
+	return tmp.String(), nil
 }
