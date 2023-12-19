@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"text/template"
 
+	"github.com/containrrr/shoutrrr"
 )
 
 func DecodeBody[V any](buffer []byte) (*V, error) {
@@ -28,4 +29,10 @@ func PrepareTemplate(tpl string, data any) (string, error) {
 	msg.Execute(&tmp, data)
 
 	return tmp.String(), nil
+}
+
+func SendNotification(message string, urls ...string) {
+	for _, url := range urls {
+		shoutrrr.Send(url, message)
+	}
 }
