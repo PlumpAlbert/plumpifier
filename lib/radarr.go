@@ -1,4 +1,4 @@
-package main
+package lib
 
 type MovieDownloaded struct {
 	Movie Movie     `json:"movie"`

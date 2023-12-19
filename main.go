@@ -8,6 +8,7 @@ import (
 
 	"github.com/containrrr/shoutrrr"
 	"github.com/gin-gonic/gin"
+	"plumpalbert/plumpifier/lib"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func sendNotification(c *gin.Context) {
 
 	decoder := json.NewDecoder(c.Request.Body)
 
-	var body MovieDownloaded
+	var body lib.MovieDownloaded
 	err := decoder.Decode(&body)
 
 	if err != nil {
