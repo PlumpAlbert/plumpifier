@@ -5,11 +5,10 @@ import (
 	"io"
 )
 
-func DecodeBody[V any](body io.ReadCloser) (*V, error) {
-	decoder := json.NewDecoder(body)
 
+func DecodeBody[V any](buffer []byte) (*V, error) {
 	var data V
-	err := decoder.Decode(&data)
+	err := json.Unmarshal(buffer, &data)
 
 	if err != nil {
 		return nil, err
