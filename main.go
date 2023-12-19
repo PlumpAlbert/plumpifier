@@ -12,15 +12,16 @@ import (
 )
 
 func main() {
+	config := lib.ReadConfig("config.json")
+
 	r := gin.Default()
-	r.POST("/", sendNotification)
+	r.POST("/", func(c *gin.Context) {
+		sendNotification(c, config)
+	})
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
 
-func sendNotification(c *gin.Context) {
-	urls := []string{
-	}
-
+func sendNotification(c *gin.Context, config lib.Config) {
 	decoder := json.NewDecoder(c.Request.Body)
 
 	var body lib.MovieDownloaded
@@ -33,7 +34,7 @@ func sendNotification(c *gin.Context) {
 		return
 	}
 
-	sender, err := shoutrrr.CreateSender(urls...)
+	sender, err := shoutrrr.CreateSender(config.Urls...)
 
 	if err != nil {
 		c.JSON(http.StatusExpectationFailed, gin.H{
