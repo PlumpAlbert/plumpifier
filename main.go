@@ -43,9 +43,19 @@ func sendNotification(c *gin.Context, config lib.Config) {
 		return
 	}
 
-	msg, err := template.New("msg").Parse("{{ .Movie.Title }} ({{ .Movie.Year }}) downloaded [{{ .File.Quality }}]")
 	var tmp bytes.Buffer
-	msg.Execute(&tmp, body)
+
+	if body.EventType == "Download" {
+		msg, err := template.New("msg").Parse(config.Radarr.Download)
+		msg.Execute(&tmp, body)
+
+		if err != nil {
+			c.JSON(http.StatusExpectationFailed, gin.H{
+				"message": "could not create template message",
+			})
+			return
+		}
+	}
 
 	sender.Send(tmp.String(), nil)
 }
