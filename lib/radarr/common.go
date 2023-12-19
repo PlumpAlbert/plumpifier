@@ -1,6 +1,8 @@
 package radarr
 
-import "time"
+import (
+	"plumpalbert/plumpifier/lib"
+)
 
 type WebhookPayload struct {
 	EventType      string `json:"eventType"`
@@ -31,15 +33,15 @@ type Release struct {
 }
 
 type Movie struct {
-	Id          int       `json:"id"`
-	Title       string    `json:"title"`
-	Year        int       `json:"year"`
-	FilePath    string    `json:"filePath"`
-	ReleaseDate time.Time `json:"releaseDate"`
-	FolderPath  string    `json:"folderPath"`
-	TMDB        int       `json:"tmdbId"`
-	IMDB        string    `json:"imdbId"`
-	Overview    string    `json:"overview"`
+	Id          int         `json:"id"`
+	Title       string      `json:"title"`
+	Year        int         `json:"year"`
+	FilePath    string      `json:"filePath"`
+	ReleaseDate lib.IsoDate `json:"releaseDate"`
+	FolderPath  string      `json:"folderPath"`
+	TMDB        int         `json:"tmdbId"`
+	IMDB        string      `json:"imdbId"`
+	Overview    string      `json:"overview"`
 }
 
 type RemoteMovie struct {
@@ -59,7 +61,7 @@ type MovieFile struct {
 	SceneName      string        `json:"sceneName"`
 	IndexerFlags   string        `json:"indexerFlags"`
 	Size           int64         `json:"size"`
-	DateAdded      time.Time     `json:"dateAdded"`
+	DateAdded      lib.IsoDate   `json:"dateAdded"`
 	MediaInfo      FileMediaInfo `json:"mediaInfo"`
 }
 
