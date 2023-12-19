@@ -7,7 +7,12 @@ import (
 )
 
 type Config struct {
-	Urls []string `json:"urls"`
+	Urls   []string       `json:"urls"`
+	Radarr *MessageConfig `json:"radarr,omitempty"`
+}
+
+type MessageConfig struct {
+	Download string `json:"download,omitempty"`
 }
 
 func ReadConfig(path string) Config {
@@ -22,6 +27,12 @@ func ReadConfig(path string) Config {
 	if err != nil {
 		log.Println("Error reading config,", err)
 		os.Exit(2)
+	}
+
+	if data.Radarr == nil || data.Radarr.Download == "" {
+		data.Radarr = &MessageConfig{
+			Download: "{{ .Movie.Title }} ({{ .Movie.Year }}) downloaded [{{ .File.Quality }}]",
+		}
 	}
 
 	log.Println("Config: ", data)
